@@ -34,7 +34,7 @@ android {
 
 dependencies {
     def retrofitVersion = "2.9.0"
-    def rxJavaVersion = "3.1.5"
+    def rxJavaVersion = "2.2.6"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
