@@ -15,7 +15,7 @@ class RecyclerViewAdapter(private val cryptoList: ArrayList<CryptoModel>, privat
         fun onItemClick(cryptoModel: CryptoModel)
     }
 
-    private val colors: Array<String> = arrayOf("#FAF8F1", "#FAEAB1", "#E5BA73", "#C58940", "#439A97", "#62B6B7")
+    private val colors: Array<String> = arrayOf("#FAEAB1", "#E5BA73", "#C58940", "#439A97", "#62B6B7")
 
     class RowHolder(view: View): RecyclerView.ViewHolder(view) {
 
@@ -23,7 +23,7 @@ class RecyclerViewAdapter(private val cryptoList: ArrayList<CryptoModel>, privat
             itemView.setOnClickListener {
                 listener.onItemClick(cryptoModel)
             }
-            itemView.setBackgroundColor(Color.parseColor(colors[position % 6]))
+            itemView.setBackgroundColor(Color.parseColor(colors[position % 5]))
             itemView.findViewById<TextView>(R.id.text_name).text = cryptoModel.currency
             itemView.findViewById<TextView>(R.id.text_price).text = cryptoModel.price
         }

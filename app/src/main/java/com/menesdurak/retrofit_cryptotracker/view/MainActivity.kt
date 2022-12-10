@@ -2,22 +2,29 @@ package com.menesdurak.retrofit_cryptotracker.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.menesdurak.retrofit_cryptotracker.R
+import com.menesdurak.retrofit_cryptotracker.adapter.RecyclerViewAdapter
 import com.menesdurak.retrofit_cryptotracker.model.CryptoModel
 import com.menesdurak.retrofit_cryptotracker.service.CryptoAPI
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerViewAdapter.Listener {
 
     private val BASE_URL = "https://raw.githubusercontent.com/"
     private var cryptoModels: ArrayList<CryptoModel>? = null
+    private var recyclerViewAdapter: RecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //https://raw.githubusercontent.com/atilsamancioglu/K21-JSONDataSet/master/crypto.json
+        //RecyclerView
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
+        findViewById<RecyclerView>(R.id.recyclerView).layoutManager = layoutManager
 
         loadData()
 
@@ -42,10 +49,16 @@ class MainActivity : AppCompatActivity() {
                     response.body()?.let {
                         cryptoModels = ArrayList(it)
 
-                        for(cryptoModel: CryptoModel in cryptoModels!!) {
-                            println(cryptoModel.currency)
-                            println(cryptoModel.price)
+                        cryptoModels?.let {
+                            recyclerViewAdapter = RecyclerViewAdapter(it, this@MainActivity)
+                            findViewById<RecyclerView>(R.id.recyclerView).adapter = recyclerViewAdapter
                         }
+
+
+//                        for(cryptoModel: CryptoModel in cryptoModels!!) {
+//                            println(cryptoModel.currency)
+//                            println(cryptoModel.price)
+//                        }
                     }
                 }
             }
@@ -55,5 +68,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onItemClick(cryptoModel: CryptoModel) {
+        Toast.makeText(this, "Clicked: ${cryptoModel.currency}", Toast.LENGTH_SHORT).show()
     }
 }
